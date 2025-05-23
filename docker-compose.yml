@@ -1,0 +1,89 @@
+services:
+  postgres:
+    container_name: postgres_db
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: usuario
+      POSTGRES_PASSWORD: contrasena
+      POSTGRES_DB: red_social
+      SCHEMA: public
+      ANON: web_anon
+      AUTHENTICATOR: authenticator
+    volumes:
+      - ./initdb.sh:/docker-entrypoint-initdb.d/initdb.sh
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - postgres
+
+  user-service:
+    build: ./Backend/
+    container_name: user-service
+    ports:
+      - "4020:4020"
+    restart: always
+    environment:
+      DATABASE_URL: postgres://usuario:contrasena@postgres_db:5432/red_social
+      FRONTEND_URL: http://localhost:5173
+      FRONTEND_URL2: http://localhost
+      FRONTEND_URL3: http://localhost:4020
+      PORT: 4020
+      SERVICE: user
+    depends_on:
+      - postgres
+
+  post-service:
+    build: ./Backend/
+    container_name: post-service
+    ports:
+      - "4010:4010"
+    restart: always
+    environment:
+      DATABASE_URL: postgres://usuario:contrasena@postgres_db:5432/red_social
+      FRONTEND_URL: http://localhost:5173
+      FRONTEND_URL2: http://localhost
+      FRONTEND_URL3: http://localhost:4010     
+      PORT: 4010
+      SERVICE: post
+    depends_on:
+      - postgres
+
+  like-service:
+    build: ./Backend/
+    container_name: like-service
+    ports:
+      - "4000:4000"
+    restart: always
+    environment:
+      DATABASE_URL: postgres://usuario:contrasena@postgres_db:5432/red_social
+      FRONTEND_URL: http://localhost:5173
+      FRONTEND_URL2: http://localhost
+      FRONTEND_URL3: http://localhost:4000
+      PORT: 4000
+      SERVICE: like
+    depends_on:
+      - postgres
+
+  front-service:
+    build: ./Frontend/
+    container_name: front-service
+    ports:
+      - "80:80"
+    restart: always
+    environment:
+
+      PORT: 80
+    depends_on:
+      - user-service
+      - post-service
+      - like-service
