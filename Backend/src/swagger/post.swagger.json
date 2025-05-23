@@ -1,0 +1,498 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "API Post Service - Social Network",
+    "description": "Microservice dedicated to managing post of a social network posts."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4010/api/post"
+    }
+  ],
+  "tags": [
+    "Post"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "Get Post",
+        "description": "Resouce to get Post of the social network.",
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkPosts"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "Create Post",
+        "description": "Resouce to create Post of the social network.",
+        "responses": {
+          "201": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestBodyPost"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestBodyPost"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "Get Post By Id",
+        "description": "Resouce to get Post by Id of the social network.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Id of Post to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkPost"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "Update Post",
+        "description": "Resouce to update Post of the social network.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestBodyPost"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestBodyPost"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "Delete Post By Id",
+        "description": "Resouce to delete Post by Id of the social network.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Id of Post to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "data": "Post Eliminado"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "RequestBodyPost": {
+        "type": "object",
+        "properties": {
+          "mensaje": {
+            "type": "string",
+            "example": "Duis ex lectus, sollicitudin quis sollicitudin in, euismod a neque. Etiam ullamcorper vel erat ac pharetra. Maecenas volutpat a urna eu pellentesque. Nullam sit amet feugiat leo. Curabitur at felis sed lectus vulputate malesuada rhoncus efficitur risus."
+          }
+        },
+        "xml": {
+          "name": "RequestBodyPost"
+        }
+      },
+      "Post": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 5
+          },
+          "mensaje": {
+            "type": "string",
+            "example": "Proin id pellentesque magna. Vestibulum in eleifend nisl, ac eleifend est. Phasellus rutrum fermentum libero, viverra dapibus ligula porta pellentesque. Vestibulum a ultricies nulla. Ut mauris libero, dignissim non enim id, suscipit venenatis augue. Morbi et neque risus. Proin faucibus efficitur lectus non vestibulum. Cras malesuada ex vel nunc sollicitudin, eget feugiat ante pellentesque. Donec nec elit nisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam arcu risus, laoreet porttitor sem vitae, tincidunt fringilla magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam porttitor, massa eu efficitur cursus, diam ex vehicula tellus, ut imperdiet lectus magna sed lacus. Suspendisse in lacus volutpat, malesuada ante ut, blandit risus."
+          },
+          "usuario": {
+            "type": "number",
+            "example": 5
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2025-05-21T14:30:21.415Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2025-05-21T14:30:21.415Z"
+          }
+        },
+        "xml": {
+          "name": "Post"
+        }
+      },
+      "OkPost": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "xml": {
+              "name": "post"
+            },
+            "$ref": "#/components/schemas/Post"
+          }
+        },
+        "xml": {
+          "name": "OkPost"
+        }
+      },
+      "OkPosts": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "xml": {
+                "name": "post"
+              },
+              "$ref": "#/components/schemas/Post"
+            }
+          }
+        },
+        "xml": {
+          "name": "OkPosts"
+        }
+      },
+      "Unauthorized": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "The access token is missing or invalid."
+          }
+        },
+        "xml": {
+          "name": "Unauthorized"
+        }
+      },
+      "NotFound": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Post No Encontrado"
+          }
+        },
+        "xml": {
+          "name": "NotFound"
+        }
+      },
+      "Forbidden": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Sin acceso, no eres el propietario del Post"
+          }
+        },
+        "xml": {
+          "name": "Forbidden"
+        }
+      },
+      "BadRequest": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "field"
+                },
+                "value": {
+                  "type": "string",
+                  "example": "xdc"
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "ID no válido, debe ser numerico"
+                },
+                "path": {
+                  "type": "string",
+                  "example": "id"
+                },
+                "location": {
+                  "type": "string",
+                  "example": "params"
+                }
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "BadRequest"
+        }
+      }
+    }
+  }
+}

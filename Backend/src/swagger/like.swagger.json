@@ -1,0 +1,283 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "API Like Service - Social Network",
+    "description": "Microservice dedicated to managing likes of a social network posts."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000/api/like"
+    }
+  ],
+  "tags": [
+    "Likes"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "Get likes",
+        "description": "Resouce to get all likes in every post of the social network.",
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkGetLikes"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/{id}": {
+      "post": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "Toglle like",
+        "description": "Resouce to toggle like in some post of the social network.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Id of Post to toggle Like"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteToggleLike"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkToggleLike"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unauthorized Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "Get Likes By User",
+        "description": "Resouce to get Likes by User of the social network.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkToggleLike"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unauthorized Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Unauthorized": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "The access token is missing or invalid."
+          }
+        }
+      },
+      "OkGetLikes": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "mensaje": {
+                  "type": "number",
+                  "example": 1
+                },
+                "count": {
+                  "type": "string",
+                  "example": "1"
+                }
+              }
+            }
+          }
+        }
+      },
+      "OkToggleLike": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "mensaje": {
+                "type": "number",
+                "example": 2
+              },
+              "usuario": {
+                "type": "number",
+                "example": 1
+              },
+              "id": {
+                "type": "number",
+                "example": 6
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2025-05-21T14:22:33.668Z"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2025-05-21T14:22:33.668Z"
+              }
+            }
+          }
+        }
+      },
+      "DeleteToggleLike": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "example": "Like Eliminado"
+          }
+        }
+      },
+      "BadRequest": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "field"
+                },
+                "value": {
+                  "type": "string",
+                  "example": "xdc"
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "ID no válido, debe ser numerico"
+                },
+                "path": {
+                  "type": "string",
+                  "example": "id"
+                },
+                "location": {
+                  "type": "string",
+                  "example": "params"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

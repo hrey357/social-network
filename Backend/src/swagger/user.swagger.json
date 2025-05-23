@@ -1,0 +1,461 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "API User Service - Social Network",
+    "description": "Microservice dedicated to managing user of a social network posts."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4020/api/user"
+    }
+  ],
+  "tags": [
+    "User"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Signin"
+        ],
+        "summary": "Login resource",
+        "description": "Login resource to social network",
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkLogin"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestBodyLogin"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestBodyLogin"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": [
+          "Register"
+        ],
+        "summary": "Register user",
+        "description": "Register user to social network",
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkRegister"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestBodyRegister"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestBodyRegister"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "User perfil",
+        "description": "Resouce to get user perfil",
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkGetUsers"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "User list",
+        "description": "Resouce to get user list register to social network.",
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkGetUsers"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "RequestBodyLogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "juan.perez@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "User753**"
+          }
+        },
+        "xml": {
+          "name": "RequestBodyLogin"
+        }
+      },
+      "RequestBodyRegister": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string",
+            "example": "Nombre"
+          },
+          "lastname": {
+            "type": "string",
+            "example": "Apellido"
+          },
+          "alias": {
+            "type": "string",
+            "example": "Apodo"
+          },
+          "email": {
+            "type": "string",
+            "example": "nombre.apellido@gmail.com"
+          },
+          "dateofbirth": {
+            "type": "string",
+            "example": "1973-01-18"
+          },
+          "password": {
+            "type": "string",
+            "example": "User753**"
+          }
+        },
+        "xml": {
+          "name": "RequestBodyRegister"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "firstname": {
+            "type": "string",
+            "example": "Juan"
+          },
+          "lastname": {
+            "type": "string",
+            "example": "Perez"
+          },
+          "email": {
+            "type": "string",
+            "example": "juan.perez@gmail.com"
+          },
+          "role": {
+            "type": "string",
+            "example": "User"
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      },
+      "Perfil": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 6
+          },
+          "firstname": {
+            "type": "string",
+            "example": "Nombre"
+          },
+          "lastname": {
+            "type": "string",
+            "example": "Apellido"
+          },
+          "alias": {
+            "type": "string",
+            "example": "Apodo"
+          },
+          "email": {
+            "type": "string",
+            "example": "nombre.apellido@gmail.com"
+          },
+          "dateofbirth": {
+            "type": "string",
+            "example": "1973-01-18"
+          }
+        },
+        "xml": {
+          "name": "Perfil"
+        }
+      },
+      "OkLogin": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "xml": {
+              "name": "user"
+            },
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "xml": {
+          "name": "OkLogin"
+        }
+      },
+      "OkPerfil": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "xml": {
+              "name": "perfil"
+            },
+            "$ref": "#/components/schemas/Perfil"
+          }
+        },
+        "xml": {
+          "name": "OkPerfil"
+        }
+      },
+      "OkRegister": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "xml": {
+              "name": "user"
+            },
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "xml": {
+          "name": "OkRegister"
+        }
+      },
+      "OkGetUsers": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "xml": {
+                "name": "user"
+              },
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        },
+        "xml": {
+          "name": "OkGetUsers"
+        }
+      },
+      "Unauthorized": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "The access token is missing or invalid."
+          }
+        },
+        "xml": {
+          "name": "Unauthorized"
+        }
+      },
+      "NotFound": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Post No Encontrado"
+          }
+        },
+        "xml": {
+          "name": "NotFound"
+        }
+      },
+      "Forbidden": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Sin acceso, no eres el propietario del Post"
+          }
+        },
+        "xml": {
+          "name": "Forbidden"
+        }
+      },
+      "BadRequest": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "field"
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "El password no puede ir vacio"
+                },
+                "path": {
+                  "type": "string",
+                  "example": "password"
+                },
+                "location": {
+                  "type": "string",
+                  "example": "body"
+                }
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "BadRequest"
+        }
+      }
+    }
+  }
+}
